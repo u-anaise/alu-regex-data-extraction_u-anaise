@@ -1,0 +1,81 @@
+Customer Support
+
+Ticket #4471 - Payment submission
+Submitted by: Chris Curtis
+Card used: 4111-6018-1590-8301, charge of $137.09 failed.
+Contact: charles.herrera@alueducation.com
+Backup card: 5105 0913 9099 6030
+
+Ticket #4472 - Payment submission
+Submitted by: Anthony Romero
+Card used: 5105 2819 4821 9935, charge of $173.37 failed.
+Contact: benjamin.hamilton@alueducation.com
+
+Ticket #4473 - Broken submission
+Submitted by: Brandon Coleman
+weird phone: 12-3
+just some noise with no real data at all here, nothing to extract.
+
+Ticket #4474 - Payment submission
+Submitted by: Eric Cabrera
+Card used: 3714-7574-9118-6252, charge of $138.08 failed.
+Contact: henry.perkins@si.alueducation.com
+Backup card: 3714 9555 9797 1147
+
+Ticket #4475 - Normal submission
+Submitted by: Jacqueline Kelley
+Message: Gun eat conference sister bank feel manager. Contact me at jamie.becker@si.alueducation.com or +44 20 8301 5662.
+
+Ticket #4476 - Payment submission
+Submitted by: Jerry Lynch
+Card used: 4539-7529-1703-4236, charge of $276.71 failed.
+Contact: charles.hunt@alumni.alueducation.com
+Backup card: 5105 6842 6846 5632
+
+Ticket #4477 - Normal submission
+Submitted by: Glenn Mahoney
+Message: Someone attention behavior establish recent assume room finally. Contact me at matthew59@example.com or +250 701 596 951.
+Amount involved: $12.01
+
+Ticket #4478 - Broken submission
+Submitted by: Melanie Griffin
+almost-alu@alueducation.com.cruz.net
+not-an-email@@bad,,domain..com
+
+Ticket #4479 - Normal submission
+Submitted by: Seth Miller
+Message: Bar character probably activity. Contact me at nicole.fuentes@alueducation.com or +250 714 448 715.
+Reference: http://smith-barnes.com/
+Amount involved: $84.12
+
+Ticket #4480 - Normal submission
+Submitted by: Emma Martinez
+Message: Key body over bill note. Contact me at michele.clements@alumni.alueducation.com or +1-566-366-1760.
+
+Ticket #4481 - Normal submission
+Submitted by: Tiffany Austin
+Message: Year letter low beat bill garden enter. Contact me at nicholas.walters@alumni.alueducation.com or +44 20 6966 8768.
+Reference: http://www.tapia.com/
+
+Ticket #4482 - Broken submission
+Submitted by: Joshua Johnson
+email typo: someone[at]alueducation[dot]com
+partial card: 5500-2803
+
+Ticket #4483 - Suspicious submission
+Submitted by: Dr. Renee Cardenas
+Name: <img src=x onerror=alert(1)>
+Message: Robert'); DROP TABLE students;--
+
+Ticket #4484 - Payment submission
+Submitted by: Cristina Holmes
+Card used: 6011 1485 2538 8853, charge of $245.7 failed.
+Contact: michael.johnson@alumni.alueducation.com
+
+Ticket #4485 - Normal submission
+Submitted by: Douglas Green
+Message: Dinner culture daughter perhaps. Contact me at seth.giles@si.alueducation.com or (948) 229-1457.
+
+Ticket #4486 - Normal submission
+Submitted by: Sara Mendoza
+Message: Threat its player beautiful watch return leg. Contact me at christopher.guerrero@si.alueducation.com or 0797056591.
