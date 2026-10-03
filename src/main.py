@@ -2,7 +2,7 @@ import re
 import json
 import os
 
-domains={ "general": re.compile(r'@alueducation\.com'),
+DOMAINS={ "general": re.compile(r'@alueducation\.com'),
           "si": re.compile(r'@si\.alueducation\.com'),
           "alumni": re.compile(r'@alumni\.alueducation\.com'),
 }
@@ -16,7 +16,7 @@ URL_RE=re.compile(r'\bhttps?://[^\s<>"\'\)]+|\bwww\.[^\s<>"\'\)]+')
 PHONE_RE=re.compile(r"(07\d{8}|\+2507\d{8})")
 # print(re.fullmatch(PHONE_RE, "07800923939"))
 
-CARD_NO_RE=re.compile('\b(?:4\d{3}|5[1-5]\d{2}|3[47]\d{2}|6011)[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{0,4}\b')
+CARD_NO_RE=re.compile(r'\b(?:4\d{3}|5[1-5]\d{2}|3[47]\d{2}|6011)[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{0,4}\b')
 
 THREAT_PATTERNS=[
   re.compile(r'<\s*script.*?>', re.IGNORECASE),
@@ -39,6 +39,16 @@ def luhn_check(number: str) -> bool:
         d-=9
     total+=d
   return total%10==0
+
+def classify_email(email:str) -> str:
+  for label, pattern in DOMAINS.items():
+    if pattern.search(email):
+      return label
+    return "External email found!"
+
+def valid_phone(raw: str) -> bool:
+  digits = re.sub(r'\D', '', raw)
+  return 7 <= len(digits) <= 15
 
 def flag_threats(line: str) -> list[str]:
   return [p.pattern for p in THREAT_PATTERNS if p.search(line)]
