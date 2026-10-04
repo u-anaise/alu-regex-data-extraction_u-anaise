@@ -1,63 +1,49 @@
 import re
 import json
-import os
 
-DOMAINS={ "general": re.compile(r'@alueducation\.com'),
-          "si": re.compile(r'@si\.alueducation\.com'),
-          "alumni": re.compile(r'@alumni\.alueducation\.com'),
-}
+EMAIL_RE=re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-zA-Z]{2,}")
+URL_RE=re.compile(r'(?:https?://[^\s<>"\'\)]+|www\.[^\s<>"\'\)]+)')
+PHONE_RE=re.compile(r"(?:\+\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}(?:[\s.-]?\d{2,4})?")
+CARD_RE=re.compile(
+  r"\b(?:"
 
-EMAIL_RE=re.compile(r"[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}")
-# print(re.match(EMAIL_RE, "gei@gmail.com"))
+  #Visa
+  r"4\d{3}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}"
 
-URL_RE=re.compile(r'\bhttps?://[^\s<>"\'\)]+|\bwww\.[^\s<>"\'\)]+')
-# print(re.match(URL_RE, "http:/jkds"))
+  #Mastercard
+  r"|5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}"
 
-PHONE_RE=re.compile(r"(07\d{8}|\+2507\d{8})")
-# print(re.fullmatch(PHONE_RE, "07800923939"))
+  #Amex
+  r"|3[47]\d{2}[\s-]?\d{6}[\s-]?\d{5}"
 
-CARD_NO_RE=re.compile(r'\b(?:4\d{3}|5[1-5]\d{2}|3[47]\d{2}|6011)[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{0,4}\b')
+  #Discover
+  r"|6011[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}"
 
-THREAT_PATTERNS=[
-  re.compile(r'<\s*script.*?>', re.IGNORECASE),
-  re.compile(r'(--|;)\s*DROP\s+TABLE', re.IGNORECASE),
-  re.compile(r"['\"]\s*;\s*--"),
-  re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f]'),
-]
+  r")\b"
+)
 
+def classify_email(email):
+  email= email.lower()
+  if email.endswith("@si.alueducation.com"):
+    return "ALU SI staff"
+  elif email.endswith("@alumni.alueducation.com"):
+    return "ALU Alumni"
+  elif email.endswith("@alueducation.com"):
+    return "ALU Official"
+  else:
+    return "External"
 
-#Validation
+def is_valid_phone(raw_text):
+  digit_count=0
+  for character in raw_text:
+    if character.isdigit():
+      digit_count=digit_count+1
+  return 7 <= digit_count<=15
 
-def luhn_check(number: str) -> bool:
-  digits= [int(d) for d in number]
-  digits.reverse()
-  total=0
-  for i, d in enumerate(digits):
-    if i%2==1:
-      d*=2
-      if d>9:
-        d-=9
-    total+=d
-  return total%10==0
+def get_digits_only(text):
+  digits=""
+  for character in text:
+    if character.isdigit():
+      digits=digits+character
+  return digits
 
-def classify_email(email:str) -> str:
-  for label, pattern in DOMAINS.items():
-    if pattern.search(email):
-      return label
-    return "External email found!"
-
-def valid_phone(raw: str) -> bool:
-  digits = re.sub(r'\D', '', raw)
-  return 7 <= len(digits) <= 15
-
-def flag_threats(line: str) -> list[str]:
-  return [p.pattern for p in THREAT_PATTERNS if p.search(line)]
-
-def mask_email(email: str) -> str:
-  local, _, domain=email.partition('@')
-  visible = local[:2] if len(local) > 2 else local[:1]
-  return f"{visible}{'*' * max(len(local) - len(visible), 1)}@{domain}"
-
-def mask_card(card: str) -> str:
-  digits = re.sub(r'\D', '', card)
-  return f"**** **** **** {digits[-4:]}"
