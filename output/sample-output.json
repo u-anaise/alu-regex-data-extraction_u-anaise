@@ -1,0 +1,175 @@
+{
+  "summary": {
+    "emails_found": 13,
+    "urls_found": 2,
+    "phones_found": 7,
+    "cards_found": 1,
+    "flagged_lines": 2
+  },
+  "emails": [
+    {
+      "value": "charles.herrera@alueducation.com",
+      "masked": "ch*************@alueducation.com",
+      "category": "ALU Official",
+      "line": 6,
+      "flagged": false
+    },
+    {
+      "value": "benjamin.hamilton@alueducation.com",
+      "masked": "be***************@alueducation.com",
+      "category": "ALU Official",
+      "line": 12,
+      "flagged": false
+    },
+    {
+      "value": "henry.perkins@si.alueducation.com",
+      "masked": "he***********@si.alueducation.com",
+      "category": "ALU SI staff",
+      "line": 22,
+      "flagged": false
+    },
+    {
+      "value": "jamie.becker@si.alueducation.com",
+      "masked": "ja**********@si.alueducation.com",
+      "category": "ALU SI staff",
+      "line": 27,
+      "flagged": false
+    },
+    {
+      "value": "charles.hunt@alumni.alueducation.com",
+      "masked": "ch**********@alumni.alueducation.com",
+      "category": "ALU Alumni",
+      "line": 32,
+      "flagged": false
+    },
+    {
+      "value": "matthew59@example.com",
+      "masked": "ma*******@example.com",
+      "category": "External",
+      "line": 37,
+      "flagged": false
+    },
+    {
+      "value": "almost-alu@alueducation.com.cruz.net",
+      "masked": "al********@alueducation.com.cruz.net",
+      "category": "External",
+      "line": 42,
+      "flagged": false
+    },
+    {
+      "value": "nicole.fuentes@alueducation.com",
+      "masked": "ni************@alueducation.com",
+      "category": "ALU Official",
+      "line": 47,
+      "flagged": false
+    },
+    {
+      "value": "michele.clements@alumni.alueducation.com",
+      "masked": "mi**************@alumni.alueducation.com",
+      "category": "ALU Alumni",
+      "line": 53,
+      "flagged": false
+    },
+    {
+      "value": "nicholas.walters@alumni.alueducation.com",
+      "masked": "ni**************@alumni.alueducation.com",
+      "category": "ALU Alumni",
+      "line": 57,
+      "flagged": false
+    },
+    {
+      "value": "michael.johnson@alumni.alueducation.com",
+      "masked": "mi*************@alumni.alueducation.com",
+      "category": "ALU Alumni",
+      "line": 73,
+      "flagged": false
+    },
+    {
+      "value": "seth.giles@si.alueducation.com",
+      "masked": "se********@si.alueducation.com",
+      "category": "ALU SI staff",
+      "line": 77,
+      "flagged": false
+    },
+    {
+      "value": "christopher.guerrero@si.alueducation.com",
+      "masked": "ch******************@si.alueducation.com",
+      "category": "ALU SI staff",
+      "line": 81,
+      "flagged": false
+    }
+  ],
+  "urls": [
+    {
+      "value": "http://smith-barnes.com/",
+      "line": 48,
+      "flagged": false
+    },
+    {
+      "value": "http://www.tapia.com/",
+      "line": 58,
+      "flagged": false
+    }
+  ],
+  "phones": [
+    {
+      "value": "+44 20 8301 5662",
+      "line": 27,
+      "flagged": false
+    },
+    {
+      "value": "+250 701 596 951",
+      "line": 37,
+      "flagged": false
+    },
+    {
+      "value": "+250 714 448 715",
+      "line": 47,
+      "flagged": false
+    },
+    {
+      "value": "+1-566-366-1760",
+      "line": 53,
+      "flagged": false
+    },
+    {
+      "value": "+44 20 6966 8768",
+      "line": 57,
+      "flagged": false
+    },
+    {
+      "value": "(948) 229-1457",
+      "line": 77,
+      "flagged": false
+    },
+    {
+      "value": "0797056591",
+      "line": 81,
+      "flagged": false
+    }
+  ],
+  "cards": [
+    {
+      "value": "5105 2819 4821 9935",
+      "masked": "**** **** **** 9935",
+      "line": 11,
+      "flagged": false
+    }
+  ],
+  "threats": [
+    {
+      "line": 67,
+      "reasons": [
+        "possible inline event handler (XSS)"
+      ],
+      "text_preview": "Name: <img src=x onerror=alert(1)>"
+    },
+    {
+      "line": 68,
+      "reasons": [
+        "possible SQL command injection"
+      ],
+      "text_preview": "Message: Robert'); DROP TABLE students;--"
+    }
+  ]
+}

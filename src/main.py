@@ -53,7 +53,7 @@ def luhn_check(digits):
   position=0
   for character in reversed_digits:
     digit=int(character)
-    if position%2==1
+    if position%2==1:
       digit=digit*2
       if digit>9:
         digit=digit-9
@@ -63,6 +63,7 @@ def luhn_check(digits):
 
 THREAT_PATTERNS=[
   (re.compile(r"<\s*script.*?>", re.IGNORECASE), "possible script tag (XSS)"),
+  (re.compile(r"on\w+\s*=", re.IGNORECASE), "possible inline event handler (XSS)"),
   (re.compile(r"(--|;)\s*DROP\s+TABLE", re.IGNORECASE), "possible SQL command injection"),
   (re.compile(r"['\"]\s*;\s*--"), "possible SQL comment-out attempt"),
   (re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]"), "contains control characters"),
@@ -73,7 +74,7 @@ def find_threats(line):
   for pattern, reason in THREAT_PATTERNS:
     if pattern.search(line):
       reasons.append(reason)
-    return reasons
+  return reasons
 
 def mask_email(email):
   parts=email.split("@")
@@ -101,7 +102,7 @@ def main():
   found_cards=[]
   flagged_lines=[]
 
-  input_file=open("input/raw_text.txt", "r", encoding="utf-8")
+  input_file=open("input/raw-text.txt", "r", encoding="utf-8")
   all_lines=input_file.readlines()
   input_file.close()
 
@@ -117,88 +118,88 @@ def main():
         "text_preview": line.strip()[:80]
       })
 
-      email_matches=EMAIL_RE.findall(line)
-      for email in email_matches:
-        found_emails.append({
-          "value": email,
-          "masked":mask_email(email),
-          "category": classify_email(email),
+    email_matches=EMAIL_RE.findall(line)
+    for email in email_matches:
+      found_emails.append({
+        "value": email,
+        "masked":mask_email(email),
+        "category": classify_email(email),
+        "line":line_number,
+        "flagged":line_is_flagged
+      })
+
+    url_matches=URL_RE.findall(line)
+    for url in url_matches:
+      found_urls.append({
+        "value":url,
+        "line":line_number,
+        "flagged":line_is_flagged
+      })
+
+    line_without_cards=line
+    card_matches=CARD_RE.findall(line)
+    for card in card_matches:
+      digits=get_digits_only(card)
+      if luhn_check(digits):
+        found_cards.append({
+          "value":card,
+          "masked":mask_card(card),
           "line":line_number,
           "flagged":line_is_flagged
         })
+        line_without_cards=line_without_cards.replace(card, " "* len(card))
 
-      url_matches=URL_RE.findall(line)
-      for url in url_matches:
-        found_urls.append({
-          "value":url,
-          "line":line_number,
+
+    phone_matches= PHONE_RE.findall(line_without_cards)
+    for phone in phone_matches:
+      if is_valid_phone(phone):
+        found_phones.append({
+          "value": phone.strip(),
+          "line": line_number,
           "flagged":line_is_flagged
         })
 
-      line_without_cards=line
-      card_matches=CARD_RE.findall(line)
-      for card in card_matches:
-        digits=get_digits_only(card)
-        if luhn_check(digits):
-          found_cards.append({
-            "value":card,
-            "masked":mask_card(card),
-            "line":line_number,
-            "flagged":line_is_flagged
-          })
-          line_without_cards=line_without_cards.replace(card, " "* len(card))
+  print("EXTRACTION SUMMARY")
+  print("\nEmails found: ", len(found_emails))
+  for item in found_emails:
+    flag_note=" [These is the flagged category]" if item["flagged"] else ""
+    print(" ", item["masked"], "-", item["category"], flag_note)
 
+  print("\nURLs found:", len(found_urls))
+  for item in found_urls:
+    print(" ", item["value"])
 
-      phone_matches= PHONE_RE.findall(line_without_cards)
-      for phone in phone_matches:
-        if is_valid_phone(phone):
-          found_phones.append({
-            "value": phone.strip(),
-            "line": line_number,
-            "flagged":line_is_flagged
-          })
+  print("\nPhone numbers found:", len(found_phones))
+  for item in found_phones:
+    print(" ", item["value"])
 
-    print("EXTRACTION SUMMARY")
-    print("\nEmails found: ", len(found_emails))
-    for item in found_emails:
-      flag_note=" [These is the flagged category]" if item["flagged"] else ""
-      print(" ", item["masked"], "-", item["category"], flag_note)
+  print("\nCredit cards found (Luhn_checking-valid):", len(found_cards))
+  for item in found_cards:
+    print(" ", item["masked"])
 
-    print("\nURLs found:", len(found_urls))
-    for item in found_urls:
-      print(" ", item["value"])
+  print("\nSuspicious lines flagged:", len(flagged_lines))
+  for item in flagged_lines:
+    print(" Line", item["line"], "-", item["reasons"])
 
-    print("\nPhone numbers found:", len(found_phones))
-    for item in found_phones:
-      print(" ", item["value"])
+  #Saving full details of the data (unmasked) to the json output file
+  results={
+    "summary": {
+      "emails_found": len(found_emails),
+      "urls_found": len(found_urls),
+      "phones_found": len(found_phones),
+      "cards_found":len(found_cards),
+      "flagged_lines":len(flagged_lines)
+    },
+    "emails": found_emails,
+    "urls": found_urls,
+    "phones": found_phones,
+    "cards": found_cards,
+    "threats": flagged_lines
+  }
 
-    print("\nCredit cards found (Luhn_checking-valid):", len(found_cards))
-    for item in found_cards:
-      print(" ", item["masked"])
-
-    print("\nSuspicious lines flagged:", len(flagged_lines))
-    for item in flagged_lines:
-      print(" Line", item["line"], "-", item["reasons"])
-
-    #Saving full details of the data (unmasked) to the json output file
-    results={
-      "summary": {
-        "emails_found": len(found_emails),
-        "urls_found": len(found_urls),
-        "phones_found": len(found_phones),
-        "cards_found":len(found_cards),
-        "flagged_lines":len(flagged_lines)
-      },
-      "emails": found_emails,
-      "urls": found_urls,
-      "phone": found_phones,
-      "cards": found_cards,
-      "threats": flagged_lines
-    }
-
-    output_file= open("output/sample-output.json", "w", encoding="utf-8")
-    json.dump(results, output_file, indent=2)
-    output_file.close()
+  output_file= open("output/sample-output.json", "w", encoding="utf-8")
+  json.dump(results, output_file, indent=2)
+  output_file.close()
 
 if __name__=="__main__":
   main()
